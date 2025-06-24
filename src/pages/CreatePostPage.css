@@ -1,0 +1,126 @@
+/* src/pages/CreatePostPage.css */
+.create-post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.create-post-section {
+    margin-bottom: 2rem;
+}
+
+.create-post-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.create-post-container label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.create-post-container input[type="text"],
+.create-post-container input[type="number"],
+.create-post-container textarea,
+.create-post-container select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.create-post-container textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+.flex-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.flex-row > * {
+    flex: 1 1 48%;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.toggle-button {
+    padding: 0.6rem 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.toggle-button.active {
+    background-color: #febb02;
+    border-color: #febb02;
+    color: white;
+}
+
+.amenities-group {
+    margin-bottom: 1rem;
+}
+
+.amenities-group input {
+    margin-bottom: 0.5rem;
+}
+
+button[type="submit"] {
+    background-color: #febb02;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #e0a800;
+}
+button.add-amenity-button {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 0.6rem 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button.add-amenity-button:hover {
+    background-color: #d6d6d6;
+    color: #000;
+}
+.remove-amenity-button {
+    background-color: #ffe5e5;
+    color: #c00;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.remove-amenity-button:hover {
+    background-color: #ffcccc;
+}

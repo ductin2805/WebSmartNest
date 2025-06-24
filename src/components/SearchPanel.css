@@ -1,0 +1,139 @@
+/* Vùng chứa tổng thể */
+.search-container {
+    background-image: url('/public/images/background.png'); /* thay bằng đường dẫn ảnh thật */
+    background-size: cover;
+    height:300px;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 40px 20px;
+    color: white; /* nếu chữ nằm trên nền tối */
+}
+
+/* Tabs chính (Nhà phố, Chung cư...) */
+.main-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-bottom: 1px solid #ccc; /* gạch ngang toàn bộ dãy tab */
+}
+
+.main-tab {
+    background: transparent;
+    border: none;
+    padding: 10px 16px;
+    font-weight: 600;
+    font-size: 15px;
+    color: white;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.main-tab img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.main-tab.active {
+    background-color: white;
+    color: black;
+}
+
+/* Tabs con (Nhà mặt tiền, Biệt thự...) */
+.sub-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.sub-tab {
+    background-color: #ddd;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sub-tab.active {
+    background-color: #2f80ed;
+    color: white;
+}
+
+/* Trường tìm kiếm */
+.search-fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 10px 14px;
+    border-radius: 12px;
+    flex: 1;
+    min-width: 250px;
+}
+
+.input-group .icon {
+    margin-right: 8px;
+    color: #2f80ed;
+    font-size: 18px;
+}
+
+.input-group input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+}
+
+/* Nút tìm kiếm */
+.search-button {
+    background-color: #ff5a00;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.search-button:hover {
+    background-color: #e55300;
+}
+.tab-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.main-tab.active img {
+    filter: brightness(0); /* icon đen khi active */
+}
+.input-group-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.field-label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: white;
+}

@@ -1,0 +1,89 @@
+.navbar {
+    background-image: url('/public/images/background.png');
+    color: white;
+    padding: 8px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.logo-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 4px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.flag-icon {
+    width: 20px;
+    height: 14px;
+}
+
+.arrow {
+    font-size: 10px;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-login {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+}
+
+.btn-login:hover {
+    background-color: white;
+    color: #003580;
+}
+
+.btn-register {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.btn-register:hover {
+    background-color: #2563eb;
+}
+
+.icon {
+    margin-right: 6px;
+}
+.logo-image {
+    height: 40px;
+    object-fit: contain;
+}

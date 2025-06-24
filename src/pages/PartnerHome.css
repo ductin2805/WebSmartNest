@@ -1,0 +1,68 @@
+.partner-home-container {
+    min-height: 100vh;
+    background-color: #f9fafb;
+    font-family: sans-serif;
+}
+
+.partner-home-header {
+    background-color: #f97316;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.partner-home-header .logo {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.logout-btn {
+    background-color: white;
+    color: #f97316;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #ffe7d4;
+}
+
+.main-content {
+    padding: 2rem;
+    text-align: center;
+}
+
+.welcome-title {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 2rem;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.menu-card {
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.menu-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
