@@ -1,8 +1,8 @@
-// src/pages/LoginPage.tsx
 import React, { useState } from 'react';
 import './LoginPage.css';
 import { useAuth } from '../hooks/useAuth';
-import { useNavigate } from 'react-router-dom'; // ✅ thêm dòng này
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 type LoginPageProps = {
     onClose: () => void;
@@ -12,7 +12,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onClose }) => {
     const { login, loading, error } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate(); // ✅ khởi tạo navigate
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -20,16 +20,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ onClose }) => {
             const result = await login(username, password);
             alert('Đăng nhập thành công');
             console.log(result);
-
-            // ✅ Ghi token vào localStorage (nếu có)
             if (result?.access_token) {
                 localStorage.setItem('partner_token', result.access_token);
-            }
-            // ✅ Chuyển hướng sau khi đăng nhập
-            navigate('/partner/home');
 
-            // Nếu bạn vẫn muốn gọi onClose() để đóng modal:
-            // onClose();
+                const decodedToken: any = jwtDecode(result.access_token);
+                const userId = decodedToken.sub;
+                sessionStorage.setItem('user_id', userId);
+                console.log('user_id:', userId);
+            }
+
+            navigate('/partner/home');
         } catch (err) {
             console.error('Lỗi đăng nhập:', err);
         }
@@ -42,9 +42,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onClose }) => {
                 <h2 className="login-title">Đăng nhập</h2>
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="login-group">
-                        <label htmlFor="username" className="login-label">
-                            Tên đăng nhập hoặc Email
-                        </label>
+                        <label htmlFor="username" className="login-label">Tên đăng nhập hoặc Email</label>
                         <input
                             id="username"
                             type="text"
@@ -56,9 +54,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onClose }) => {
                         />
                     </div>
                     <div className="login-group">
-                        <label htmlFor="password" className="login-label">
-                            Mật khẩu
-                        </label>
+                        <label htmlFor="password" className="login-label">Mật khẩu</label>
                         <input
                             id="password"
                             type="password"

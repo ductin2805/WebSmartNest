@@ -1,0 +1,73 @@
+.notification-detail-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+}
+
+.notification-detail-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1a73e8;
+    margin-bottom: 16px;
+}
+.notification-image-wrapper {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.notification-image {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.notification-detail-container p {
+    font-size: 16px;
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.notification-detail-container strong {
+    color: #555;
+}
+
+.post-preview {
+    margin-top: 32px;
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.post-preview h4 {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 12px;
+}
+
+.post-preview img {
+    max-width: 100%;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+}
+
+.post-preview a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #1a73e8;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.post-preview a:hover {
+    color: #0d47a1;
+    text-decoration: underline;
+}

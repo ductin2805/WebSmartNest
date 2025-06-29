@@ -1,16 +1,38 @@
-// src/pages/CreatePostPage.tsx
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './CreatePostPage.css';
 import axiosInstance from '../api/axiosInstance';
+import axiosUploadInstance from '../api/axiosUploadInstance';
 import { toast } from 'react-toastify';
-import ImageUploader from '../pages/ImageUploader';
+import ImageUploader from './ImageUploader';
+
+interface Ward {
+    code: number;
+    name: string;
+}
+
+interface District {
+    code: number;
+    name: string;
+    wards?: Ward[];
+}
+
+interface City {
+    code: number;
+    name: string;
+    districts?: District[];
+}
+interface Location {
+    code: number;
+    name: string;
+}
 
 const CreatePostPage: React.FC = () => {
-    const [cities, setCities] = useState([]);
-    const [districts, setDistricts] = useState([]);
-    const [wards, setWards] = useState([]);
-    const [createdPostId, setCreatedPostId] = useState<string | null>(null);
+    const [cities, setCities] = useState<Location[]>([]);
+    const [districts, setDistricts] = useState<Location[]>([]);
+    const [wards, setWards] = useState<Location[]>([]);
+    const [files, setFiles] = useState<File[]>([]);
+    const [formattedPrice, setFormattedPrice] = useState('');
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -21,37 +43,36 @@ const CreatePostPage: React.FC = () => {
         postType: 'HOME',
         postDetailRequest: {
             price: 0,
-            area: 0,
+            area: '',
             length: '',
             horizontal: '',
-            bedRoom: 0,
-            bathRoom: 0,
-            floor: 0,
+            bedRoom: '',
+            bathRoom: '',
+            floor: '',
             legalPapers: true,
             amenities: [] as { name: string; description: string }[]
         }
     });
 
-    // Lấy danh sách tỉnh/thành phố khi load trang
     useEffect(() => {
         axios.get('https://provinces.open-api.vn/api/?depth=1')
             .then(res => setCities(res.data))
             .catch(err => console.error('Lỗi tải tỉnh/thành phố:', err));
     }, []);
 
-    // Lấy danh sách quận/huyện khi chọn thành phố
     useEffect(() => {
-        if (formData.city) {
-            axios.get(`https://provinces.open-api.vn/api/p/${formData.city}?depth=2`)
+        const selectedCity = cities.find((c: any) => c.name === formData.city);
+        if (selectedCity) {
+            axios.get(`https://provinces.open-api.vn/api/p/${selectedCity.code}?depth=2`)
                 .then(res => setDistricts(res.data.districts))
                 .catch(err => console.error('Lỗi tải quận/huyện:', err));
         }
     }, [formData.city]);
 
-    // Lấy danh sách phường/xã khi chọn quận/huyện
     useEffect(() => {
-        if (formData.district) {
-            axios.get(`https://provinces.open-api.vn/api/d/${formData.district}?depth=2`)
+        const selectedDistrict = districts.find((d: any) => d.name === formData.district);
+        if (selectedDistrict) {
+            axios.get(`https://provinces.open-api.vn/api/d/${selectedDistrict.code}?depth=2`)
                 .then(res => setWards(res.data.wards))
                 .catch(err => console.error('Lỗi tải phường/xã:', err));
         }
@@ -64,13 +85,14 @@ const CreatePostPage: React.FC = () => {
                 ...formData,
                 postDetailRequest: {
                     ...formData.postDetailRequest,
-                    [name]: isNaN(Number(value)) ? value : Number(value)
+                    [name]: value
                 }
             });
         } else {
             setFormData({ ...formData, [name]: value });
         }
     };
+
     const handleAmenityChange = (index: number, field: 'name' | 'description', value: string) => {
         const newAmenities = [...formData.postDetailRequest.amenities];
         newAmenities[index][field] = value;
@@ -104,120 +126,179 @@ const CreatePostPage: React.FC = () => {
         });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        console.log('Dữ liệu gửi đi:', formData);
-
-        try {
-            const response = await axiosInstance.post('/posts', formData);
-            const postId = response.data.id;
-            setCreatedPostId(postId); // ✅ lưu postId để dùng trong ImageUploader
-            toast.success('🎉 Bài đăng đã được tạo thành công!');
-        } catch (err: any) {
-            console.error('Lỗi khi gửi dữ liệu:', err);
-            if (err.response) {
-                console.error('Phản hồi từ server:', err.response.data);
-            }
-            toast.error('❌ Đăng bài thất bại. Vui lòng thử lại!');
-        }
+    const formatCurrency = (value: string | number): string => {
+        const num = typeof value === 'number' ? value : parseInt(value.replace(/\D/g, '')) || 0;
+        return num.toLocaleString('vi-VN');
     };
 
+    const unformatCurrency = (value: string): number => {
+        return parseInt(value.replace(/\./g, '').replace(/\D/g, '')) || 0;
+    };
 
+    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const formatted = formatCurrency(e.target.value);
+        const raw = unformatCurrency(e.target.value);
+        setFormData({
+            ...formData,
+            postDetailRequest: {
+                ...formData.postDetailRequest,
+                price: raw
+            }
+        });
+        setFormattedPrice(formatted);
+    };
 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        try {
+            const postResponse = await axiosInstance.post('/posts', formData);
+            const postId = postResponse.data.id;
+
+            if (files.length > 0) {
+                const uploadPromises = files.map(file => {
+                    const imgFormData = new FormData();
+                    imgFormData.append('img_url', file);
+
+                    return axiosUploadInstance.post(`/api/v1/images?postId=${postId}`, imgFormData, {
+                        headers: { 'Content-Type': 'multipart/form-data' }
+                    });
+                });
+
+                await Promise.all(uploadPromises);
+                toast.success('🎉 Bài đăng và ảnh đã được tạo thành công!');
+            } else {
+                toast.success('🎉 Bài đăng đã được tạo (không có ảnh)!');
+            }
+            setFormData({
+                title: '',
+                description: '',
+                address: '',
+                city: '',
+                district: '',
+                ward: '',
+                postType: '',
+                postDetailRequest: {
+                    price: 0,
+                    area: '',
+                    length: '',
+                    horizontal: '',
+                    bedRoom: '',
+                    bathRoom: '',
+                    floor: '',
+                    legalPapers: true,
+                    amenities: []
+                }
+            });
+            setFiles([]);
+            setFormattedPrice('');
+        } catch (err) {
+            console.error('Lỗi:', err);
+            toast.error('❌ Tạo bài đăng hoặc upload ảnh thất bại!');
+        }
+    };
 
     return (
         <div className="create-post-container">
             <h2>Đăng tin bất động sản</h2>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="title" placeholder="Tiêu đề" onChange={handleChange} required />
-                <textarea name="description" placeholder="Mô tả" onChange={handleChange} required />
-                <input type="text" name="address" placeholder="Địa chỉ" onChange={handleChange} required />
-                <select name="city" onChange={handleChange} required>
+                <input type="text" name="title" placeholder="Tiêu đề" value={formData.title} onChange={handleChange} required />
+                <textarea name="description" placeholder="Mô tả" value={formData.description} onChange={handleChange} required />
+                <input type="text" name="address" placeholder="Địa chỉ" value={formData.address} onChange={handleChange} required />
+
+                <select name="city" onChange={handleChange} value={formData.city} required>
                     <option value="">-- Chọn tỉnh/thành phố --</option>
-                    {cities.map((city: any) => (
-                        <option key={city.code} value={city.code}>
-                            {city.name}
-                        </option>
+                    {cities.map(city => (
+                        <option key={city.code} value={city.name}>{city.name}</option>
                     ))}
                 </select>
 
-                <select name="district" onChange={handleChange} required>
+                <select name="district" onChange={handleChange} value={formData.district} required>
                     <option value="">-- Chọn quận/huyện --</option>
-                    {districts.map((district: any) => (
-                        <option key={district.code} value={district.code}>
-                            {district.name}
-                        </option>
+                    {districts.map(district => (
+                        <option key={district.code} value={district.name}>{district.name}</option>
                     ))}
                 </select>
 
-                <select name="ward" onChange={handleChange} required>
+                <select name="ward" onChange={handleChange} value={formData.ward} required>
                     <option value="">-- Chọn phường/xã --</option>
-                    {wards.map((ward: any) => (
-                        <option key={ward.code} value={ward.name}>
-                            {ward.name}
-                        </option>
+                    {wards.map(ward => (
+                        <option key={ward.code} value={ward.name}>{ward.name}</option>
                     ))}
                 </select>
 
-                <input type="number" name="price" placeholder="Giá (VND)" onChange={handleChange} />
-                <input type="number" name="area" placeholder="Diện tích (m²)" onChange={handleChange} />
-                <input type="text" name="length" placeholder="Chiều dài" onChange={handleChange} />
-                <input type="text" name="horizontal" placeholder="Chiều rộng" onChange={handleChange} />
-                <input type="number" name="bedRoom" placeholder="Số phòng ngủ" onChange={handleChange} />
-                <input type="number" name="bathRoom" placeholder="Số phòng vệ sinh" onChange={handleChange} />
-                <input type="number" name="floor" placeholder="Số tầng" onChange={handleChange} />
-
-                <label>Pháp lý:</label>
-                <input
-                    type="checkbox"
-                    checked={formData.postDetailRequest.legalPapers}
-                    onChange={(e) =>
-                        setFormData({
-                            ...formData,
-                            postDetailRequest: {
-                                ...formData.postDetailRequest,
-                                legalPapers: e.target.checked
+                <input type="text" name="price" placeholder="Giá (VND)" value={formattedPrice} onChange={handlePriceChange} />
+                <input type="number" name="area" placeholder="Diện tích (m²)" value={formData.postDetailRequest.area} onChange={handleChange} />
+                <input type="text" name="length" placeholder="Chiều dài" value={formData.postDetailRequest.length} onChange={handleChange} />
+                <input type="text" name="horizontal" placeholder="Chiều rộng" value={formData.postDetailRequest.horizontal} onChange={handleChange} />
+                <input type="number" name="bedRoom" placeholder="Số phòng ngủ" value={formData.postDetailRequest.bedRoom} onChange={handleChange} />
+                <input type="number" name="bathRoom" placeholder="Số phòng vệ sinh" value={formData.postDetailRequest.bathRoom} onChange={handleChange} />
+                <input type="number" name="floor" placeholder="Số tầng" value={formData.postDetailRequest.floor} onChange={handleChange} />
+                <div className="post-type-selector">
+                    {[
+                        { label: "Nhà phố", value: "HOME", icon: "🏠" },
+                        { label: "Chung cư", value: "APARTMENT", icon: "🏢" },
+                        { label: "Căn hộ dịch vụ", value: "SERVICE_APT", icon: "🛎️" },
+                        { label: "Phòng trọ", value: "RENT_ROOM", icon: "🛏️" },
+                        { label: "Nhà cho thuê", value: "FOR_RENT", icon: "🏘️" },
+                    ].map((type) => (
+                        <button
+                            type="button"
+                            key={type.value}
+                            className={`type-btn ${formData.postType === type.value ? "active" : ""}`}
+                            onClick={() =>
+                                setFormData({
+                                    ...formData,
+                                    postType: type.value,
+                                })
                             }
-                        })
-                    }
-                />
+                        >
+                            <span className="icon">{type.icon}</span> {type.label}
+                        </button>
+                    ))}
+                </div>
+
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={formData.postDetailRequest.legalPapers}
+                        onChange={(e) =>
+                            setFormData({
+                                ...formData,
+                                postDetailRequest: {
+                                    ...formData.postDetailRequest,
+                                    legalPapers: e.target.checked
+                                }
+                            })
+                        }
+                    />
+                    Pháp lý đầy đủ
+                </label>
 
                 <h4>Tiện ích</h4>
                 {formData.postDetailRequest.amenities.map((item, idx) => (
                     <div key={idx} className="amenities-group">
                         <input
                             type="text"
-                            placeholder={`Tên tiện ích ${idx + 1}`}
+                            placeholder="Tên tiện ích"
                             value={item.name}
                             onChange={(e) => handleAmenityChange(idx, 'name', e.target.value)}
                         />
                         <input
                             type="text"
-                            placeholder={`Mô tả tiện ích ${idx + 1}`}
+                            placeholder="Mô tả tiện ích"
                             value={item.description}
                             onChange={(e) => handleAmenityChange(idx, 'description', e.target.value)}
                         />
-                        <button
-                            type="button"
-                            className="remove-amenity-button"
-                            onClick={() => removeAmenity(idx)}
-                        >
-                            Xoá
-                        </button>
+                        <button type="button" onClick={() => removeAmenity(idx)}>Xoá</button>
                     </div>
                 ))}
+                <button type="button" onClick={addAmenity}>+ Thêm tiện ích</button>
 
-                <button type="button" className="add-amenity-button" onClick={addAmenity}>
-                    + Thêm tiện ích
-                </button>
+                <h4>📤 Chọn hình ảnh</h4>
+                <ImageUploader onFilesSelected={setFiles} />
 
-                <button type="submit">Đăng tin</button>
-                {createdPostId && (
-                    <div style={{ marginTop: '20px' }}>
-                        <h4>📤 Tải hình ảnh cho bài đăng:</h4>
-                        <ImageUploader postId={createdPostId} />
-                    </div>
-                )}
+                <button type="submit" className='create-post-button'>📨 Đăng bài</button>
             </form>
         </div>
     );

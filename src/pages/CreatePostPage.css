@@ -6,6 +6,7 @@
     font-family: Arial, sans-serif;
     background-color: #fff;
     border-radius: 8px;
+
 }
 
 .create-post-section {
@@ -79,7 +80,7 @@
     margin-bottom: 0.5rem;
 }
 
-button[type="submit"] {
+.create-post-container [type="submit"] {
     background-color: #febb02;
     color: white;
     padding: 0.75rem 2rem;
@@ -88,6 +89,7 @@ button[type="submit"] {
     font-size: 1rem;
     cursor: pointer;
     transition: background 0.3s;
+    margin-left: 300px;
 }
 
 button[type="submit"]:hover {
@@ -123,4 +125,35 @@ button.add-amenity-button:hover {
 
 .remove-amenity-button:hover {
     background-color: #ffcccc;
+}
+.post-type-selector {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.type-btn {
+    padding: 10px 16px;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s ease;
+}
+
+.type-btn .icon {
+    font-size: 18px;
+}
+
+.type-btn.active {
+    border-color: #e5193b;
+    background-color: #fff0f2;
+    color: #e5193b;
+    font-weight: bold;
 }

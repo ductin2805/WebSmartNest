@@ -5,7 +5,7 @@ import { saveToken } from '../utils/authUtils'; // ✅ import hàm lưu token
 export const useAuth = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
+    const userId = sessionStorage.getItem('user_id');
     const login = async (username: string, password: string) => {
         try {
             setLoading(true);

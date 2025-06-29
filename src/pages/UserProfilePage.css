@@ -1,0 +1,124 @@
+/* Container chính */
+.user-profile-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #f1f9fb;
+    padding: 30px;
+    border-radius: 12px;
+    font-family: Arial, sans-serif;
+}
+
+.user-profile-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+}
+
+/* Thanh chuyển tab */
+.form-switcher {
+    display: flex;
+    gap: 50px;
+    border-bottom: 2px solid #eee;
+    margin: 20px auto;
+    padding-left: 300px;
+    max-width: 600px;
+}
+
+.form-switcher button {
+    padding: 12px 0;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #666;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.form-switcher button.active {
+    border-bottom: 2px solid #e5193b;
+    color: #e5193b;
+    font-weight: bold;
+}
+
+/* Form layout */
+.user-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Nhóm input label + input */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-group label {
+    font-size: 12px;
+    color: #888;
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+.form-group input {
+    padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: #222;
+    background-color: #fff;
+    outline: none;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.form-group input:disabled {
+    background-color: #f9f9f9;
+    color: #000;
+    cursor: not-allowed;
+}
+
+/* Nút lưu */
+.save-btn {
+    align-self: center;
+    padding: 10px 20px;
+    background-color: #00b8d4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.save-btn:hover {
+    background-color: #00a2bb;
+}
+
+/* Nút quay lại */
+.back-btn {
+    margin: 30px auto 10px;
+    display: block;
+    background: transparent;
+    color: #333;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Liên kết đổi số / mật khẩu */
+.user-profile-form a {
+    font-size: 13px;
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 8px;
+}
+
+.user-profile-form a:hover {
+    text-decoration: underline;
+}

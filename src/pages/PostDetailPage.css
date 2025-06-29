@@ -1,0 +1,138 @@
+.post-detail-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 24px;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+}
+
+.post-detail-content {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.image-section {
+    flex: 1;
+}
+
+.main-image-wrapper {
+    position: relative;
+}
+
+.main-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    max-height: 400px;
+}
+
+.image-count {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 8px;
+}
+
+.thumbnail-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 60px;
+    border-radius: 6px;
+    object-fit: cover;
+    cursor: pointer;
+    opacity: 0.7;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.thumbnail:hover,
+.thumbnail.active {
+    opacity: 1;
+    border-color: #e75ef1;
+}
+
+.info-section {
+    flex: 1;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    color: #111827;
+}
+
+.price {
+    font-size: 1.125rem;
+    margin: 8px 0;
+    font-weight: 600;
+    color: #dc2626;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.address {
+    color: #6b7280;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.details-list {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0;
+}
+
+.details-list li {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: #374151;
+}
+
+.amenities {
+    margin-bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.amenity-badge {
+    background: #f3f4f6;
+    color: #374151;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-size: 14px;
+}
+
+h3 {
+    margin-top: 16px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+p {
+    font-size: 14px;
+    color: #444;
+}

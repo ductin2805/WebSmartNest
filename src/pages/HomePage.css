@@ -73,3 +73,21 @@
     align-items: center;
     gap: 4px;
 }
+.room-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+.notification-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+.noti-dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+}

@@ -1,0 +1,104 @@
+/* src/pages/EditPostPage.css */
+.edit-post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.edit-post-section {
+    margin-bottom: 2rem;
+}
+
+.edit-post-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.edit-post-container label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #444;
+}
+
+.edit-post-container input[type="text"],
+.edit-post-container input[type="number"],
+.edit-post-container textarea,
+.edit-post-container select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+}
+
+.edit-post-container textarea {
+    resize: vertical;
+    height: 120px;
+}
+
+.flex-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.flex-row > * {
+    flex: 1 1 48%;
+}
+
+.edit-button-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.edit-type-selector {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.edit-btn {
+    padding: 10px 16px;
+    background-color: #f0f0f0;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.edit-btn.active {
+    border-color: #198754;
+    background-color: #e6f4ea;
+    color: #198754;
+    font-weight: bold;
+}
+
+.edit-submit-button {
+    background-color: #198754;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-submit-button:hover {
+    background-color: #146c43;
+}

@@ -1,11 +1,11 @@
 import React from "react";
-import NavbarTraveloka from "../components/NavbarTraveloka";
+import NavbarNestMart from "../components/NavbarNestMart";
 import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
     return (
         <div className="min-h-screen flex flex-col">
-            <NavbarTraveloka />
+            <NavbarNestMart />
             <main className="flex-grow">
                 <Outlet />
             </main>
